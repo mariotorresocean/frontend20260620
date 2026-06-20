@@ -12,20 +12,46 @@ function Tabuleiro() {
 
     const [vezDoX,setVezDoX] = useState(true)
     let mensagem = 'Vez do ';
-    if (vezDoX) {
-        mensagem = mensagem + 'X'; 
+    let vencedor = verificarVencedor(quads)
+    if (vencedor) {
+        mensagem = 'Vencedor é '+vencedor;
     } else {
-        mensagem = mensagem + 'O';
+        if (vezDoX) {
+            mensagem = mensagem + 'X'; 
+        } else {
+            mensagem = mensagem + 'O';
+        }
     }
 
-    function verificarVencedor() {
-        if (quads[0] && quads[0] == quads[1] && quads[1] == quads[2]) {
-            console.log('Vencedor')
+    function verificarVencedor(quads) {
+        const combV = [
+            [0,1,2],
+            [3,4,5],
+            [6,7,8],
+            [0,3,6],
+            [1,4,7],
+            [2,5,8],
+            [0,4,8], // dp
+            [2,4,6] // ds
+        ]
+
+        for (let i=0;i < combV.length;i++) {
+            const [p1,p2,p3] = combV[i];
+            if (quads[p1] && quads[p1] == quads[p2] && quads[p2] == quads[p3]) {
+                return quads[p1];
+            }
+
         }
+
+        
     }
 
     function handleClick(posicao) {
         if (quads[posicao] != null) {
+            return;
+        }
+
+        if (verificarVencedor(quads)) {
             return;
         }
 
@@ -39,11 +65,15 @@ function Tabuleiro() {
         }
         console.log('clicou em'+posicao);
         setQuads(novosQuadrados);
-        verificarVencedor();
     }
+    function handleReset() {
+        setQuads(Array(9).fill(null));
+    }
+
     return (
         <>
         <h3>{mensagem} </h3>
+        <button onClick={handleReset}> Reiniciar jogo</button>
         <div className='linha'>
             <Quadrado quad={quads[0]} nomeDaFuncClica={()=>handleClick(0)} />
             <Quadrado quad={quads[1]} nomeDaFuncClica={()=>handleClick(1)} />
