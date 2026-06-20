@@ -18,7 +18,17 @@ function Tabuleiro() {
         mensagem = mensagem + 'O';
     }
 
+    function verificarVencedor() {
+        if (quads[0] && quads[0] == quads[1] && quads[1] == quads[2]) {
+            console.log('Vencedor')
+        }
+    }
+
     function handleClick(posicao) {
+        if (quads[posicao] != null) {
+            return;
+        }
+
         const novosQuadrados = quads.slice();
         if (vezDoX) {
             novosQuadrados[posicao] = 'X';
@@ -29,6 +39,7 @@ function Tabuleiro() {
         }
         console.log('clicou em'+posicao);
         setQuads(novosQuadrados);
+        verificarVencedor();
     }
     return (
         <>
