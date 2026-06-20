@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import './Jogo.css'
 
-function Quadrado({quad, handleClick}) {
+function Quadrado({quad, nomeDaFuncClica}) {
     return (
-        <button className='q' onClick={handleClick}>{quad}</button>
+        <button className='q' onClick={nomeDaFuncClica}>{quad}</button>
     )
 }
 
@@ -20,7 +20,13 @@ function Tabuleiro() {
 
     function handleClick(posicao) {
         const novosQuadrados = quads.slice();
-        novosQuadrados[posicao] = 'O';
+        if (vezDoX) {
+            novosQuadrados[posicao] = 'X';
+            setVezDoX(false)
+        } else {
+            novosQuadrados[posicao] = 'O';
+            setVezDoX(true)
+        }
         console.log('clicou em'+posicao);
         setQuads(novosQuadrados);
     }
@@ -28,19 +34,19 @@ function Tabuleiro() {
         <>
         <h3>{mensagem} </h3>
         <div className='linha'>
-            <Quadrado quad={quads[0]} onClick={()=>handleClick(0)} />
-            <Quadrado quad={quads[1]} onClick={()=>handleClick(1)} />
-            <Quadrado quad={quads[2]} onClick={()=>handleClick(2)} />
+            <Quadrado quad={quads[0]} nomeDaFuncClica={()=>handleClick(0)} />
+            <Quadrado quad={quads[1]} nomeDaFuncClica={()=>handleClick(1)} />
+            <Quadrado quad={quads[2]} nomeDaFuncClica={()=>handleClick(2)} />
         </div>
         <div className='linha'>
-            <Quadrado />
-            <Quadrado />
-            <Quadrado />
+            <Quadrado quad={quads[3]} nomeDaFuncClica={()=>handleClick(3)} />
+            <Quadrado quad={quads[4]} nomeDaFuncClica={()=>handleClick(4)} />
+            <Quadrado quad={quads[5]} nomeDaFuncClica={()=>handleClick(5)} />
         </div>
         <div className='linha'>
-            <Quadrado />
-            <Quadrado />
-            <Quadrado />
+            <Quadrado quad={quads[6]} nomeDaFuncClica={()=>handleClick(6)} />
+            <Quadrado quad={quads[7]} nomeDaFuncClica={()=>handleClick(7)} />
+            <Quadrado quad={quads[8]} nomeDaFuncClica={()=>handleClick(8)} />
         </div>
         </>
     )
